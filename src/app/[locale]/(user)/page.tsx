@@ -1,5 +1,7 @@
+import { Button } from "@/components/ui/button";
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
+import Link from "next/link";
 
 export const generateMetadata = async ({
   params,
@@ -18,7 +20,14 @@ export const generateMetadata = async ({
 };
 
 const Page = () => {
-  return <>bosh sahifa</>;
+  return (
+    <div>
+      <h1>Bosh sahifa</h1>
+      <Link href={"login"}>
+        <Button>Login</Button>
+      </Link>
+    </div>
+  );
 };
 
 export default Page;
