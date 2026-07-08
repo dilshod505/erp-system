@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-export const baseBackendUrl = "https://dummyjson.com";
+export const baseBackendUrl = "https://dummyjson.com/";
 
 export const api = axios.create({
   baseURL: baseBackendUrl,

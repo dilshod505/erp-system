@@ -4,6 +4,8 @@ import useLayoutStore from "@/store/layout-store";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { type ReactNode, useEffect, useState } from "react";
+import { api } from "@/components/models/axios";
+import Cookies from "js-cookie";
 
 const AuthProvider = ({
   children,
@@ -18,41 +20,66 @@ const AuthProvider = ({
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    let isMounted = true;
+    const check = async () => {
+      try {
+        console.log("TOKEN:", Cookies.get("accessToken"));
 
-    // const check = async () => {
-    //   try {
-    //     const res = await api.post("/admin/auth/me");
-    //     if (!isMounted) return;
-    //
-    //     if (res.status === 200 || res.status === 201) {
-    //       const userData = res.data.data;
-    //       setUser(userData);
-    //
-    //       if (
-    //         role &&
-    //         userData.role.toString().toUpperCase() !== role.toUpperCase()
-    //       ) {
-    //         router.replace(
-    //           `/${userData.role.toLowerCase().replace("_", "-")}/dashboard`
-    //         );
-    //         return; // 🔑 redirect bo'lsa isLoading false qilmaslik
-    //       }
-    //       setIsLoading(false); // ✅ Faqat to‘g‘ri foydalanuvchi bo‘lsa ochamiz
-    //     } else {
-    //       router.replace("/login");
-    //     }
-    //   } catch {
-    //     router.replace("/login");
-    //   }
-    // };
+        const res = await api.get("/auth/me");
 
-    // check();
+        console.log("ME:", res.data);
 
-    return () => {
-      isMounted = false;
+        setUser(res.data);
+
+        setIsLoading(false);
+      } catch (err: any) {
+        console.log("STATUS:", err.response?.status);
+        console.log("DATA:", err.response?.data);
+        console.log("HEADERS:", err.config?.headers);
+
+        router.replace("/login");
+      }
     };
-  }, [role, router, setUser]);
+
+    check();
+  }, []);
+
+  // useEffect(() => {
+  //   let isMounted = true;
+  //
+  //   console.log(Cookies.get("accessToken"));
+  //
+  //   const check = async () => {
+  //     try {
+  //       const res = await api.get("/auth/me");
+  //       if (!isMounted) return;
+  //
+  //       if (res.status === 200 || res.status === 201) {
+  //         const userData = res.data.data;
+  //         setUser(userData);
+  //         if (
+  //           role &&
+  //           userData.role.toString().toUpperCase() !== role.toUpperCase()
+  //         ) {
+  //           router.replace(
+  //             `/${userData.role.toLowerCase().replace("_", "-")}/dashboard`,
+  //           );
+  //           return; // 🔑 redirect bo'lsa isLoading false qilmaslik
+  //         }
+  //         setIsLoading(false); // ✅ Faqat to‘g‘ri foydalanuvchi bo‘lsa ochamiz
+  //       } else {
+  //         router.replace("/login");
+  //       }
+  //     } catch {
+  //       router.replace("/login");
+  //     }
+  //   };
+  //
+  //   check();
+  //
+  //   return () => {
+  //     isMounted = false;
+  //   };
+  // }, [role, router, setUser]);
 
   // ✅ loading bo‘lsa yoki user hali kelmagan bo‘lsa faqat spinner
   if (isLoading || !user) {

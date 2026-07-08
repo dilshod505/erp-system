@@ -12,8 +12,8 @@ export const generateMetadata = async ({
   const t = await getTranslations({ locale });
 
   return {
-    title: t("Admin Dashboard"),
-    description: t("Admin Dashboard"),
+    title: t("Super-Admin Dashboard"),
+    description: t("Super-Admin Dashboard"),
   };
 };
 
