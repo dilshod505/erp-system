@@ -33,6 +33,7 @@ import {
   LayoutDashboard,
   LibraryBig,
   LogOut,
+  Receipt,
   Users,
   X,
 } from "lucide-react";
@@ -41,6 +42,8 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import type React from "react";
 import { useMemo } from "react";
+import { MdStickyNote2 } from "react-icons/md";
+import { FaFileInvoiceDollar } from "react-icons/fa";
 
 interface OptimizedSidebarProps {
   notifications?: number;
@@ -126,7 +129,57 @@ const OptimizedSidebar: React.FC<OptimizedSidebarProps> = ({
           `/${user?.role?.toLowerCase().replace("_", "-")}/dashboard`,
           `/${user?.role?.toLowerCase().replace("_", "-")}/dashboard/*`,
         ],
-        role: ["ADMIN", "SUPER_ADMIN"],
+        role: ["admin", "SUPER_ADMIN"],
+      },
+      {
+        title: t("Staff"),
+        icon: <Users className="w-5 h-5" />,
+        href: `/${user?.role?.toLowerCase().replace("_", "-")}/staff`,
+        activePatterns: [
+          `/${user?.role?.toLowerCase().replace("_", "-")}/staff`,
+          `/${user?.role?.toLowerCase().replace("_", "-")}/staff/*`,
+        ],
+        role: ["admin", "SUPER_ADMIN"],
+      },
+      {
+        title: t("Payment Voucher"),
+        icon: <Users className="w-5 h-5" />,
+        href: `/${user?.role?.toLowerCase().replace("_", "-")}/payment`,
+        activePatterns: [
+          `/${user?.role?.toLowerCase().replace("_", "-")}/payment`,
+          `/${user?.role?.toLowerCase().replace("_", "-")}/payment/*`,
+        ],
+        role: ["admin", "SUPER_ADMIN"],
+      },
+      {
+        title: t("Payroll"),
+        icon: <FaFileInvoiceDollar className="w-5 h-5" />,
+        href: `/${user?.role?.toLowerCase().replace("_", "-")}/payroll`,
+        activePatterns: [
+          `/${user?.role?.toLowerCase().replace("_", "-")}/payroll`,
+          `/${user?.role?.toLowerCase().replace("_", "-")}/payroll/*`,
+        ],
+        role: ["admin", "SUPER_ADMIN"],
+      },
+      {
+        title: t("Memo"),
+        icon: <Receipt className="w-5 h-5" />,
+        href: `/${user?.role?.toLowerCase().replace("_", "-")}/memo`,
+        activePatterns: [
+          `/${user?.role?.toLowerCase().replace("_", "-")}/memo`,
+          `/${user?.role?.toLowerCase().replace("_", "-")}/memo/*`,
+        ],
+        role: ["admin", "SUPER_ADMIN"],
+      },
+      {
+        title: t("Circulars"),
+        icon: <MdStickyNote2 className="w-5 h-5" />,
+        href: `/${user?.role?.toLowerCase().replace("_", "-")}/circulars`,
+        activePatterns: [
+          `/${user?.role?.toLowerCase().replace("_", "-")}/circulars`,
+          `/${user?.role?.toLowerCase().replace("_", "-")}/circulars/*`,
+        ],
+        role: ["admin", "SUPER_ADMIN"],
       },
     ],
     [t, user?.role, notifications],
@@ -150,11 +203,11 @@ const OptimizedSidebar: React.FC<OptimizedSidebarProps> = ({
     // Common classes for menu items
     const getMenuItemClasses = (isActive: boolean, isParent = false) => {
       return cn(
-        "flex items-center gap-2 h-10 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 group relative",
+        "flex items-center gap-2 h-10 py-7 rounded-lg text-lg text-black font-medium transition-all duration-200 group relative",
         // Collapsed state - center icons and adjust padding
         isCollapsed ? "justify-center px-3" : "px-4",
         // Default inactive state
-        "text-muted-foreground hover:bg-green-600/95 hover:text-white",
+        "hover:bg-green-600/95 hover:text-white",
         // Active states
         isActive && "bg-green-600 text-white hover:bg-green-800",
         // Parent archived state (subtle background when child is archived)

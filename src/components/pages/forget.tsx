@@ -15,7 +15,7 @@ import axios from "axios";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
-export default function Login() {
+export default function ForgetPage() {
   const t = useTranslations();
   const router = useRouter();
   const { setCredentials } = useLayoutStore();
@@ -61,13 +61,12 @@ export default function Login() {
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: -30 }}
+      initial={{ opacity: 0, x: 30 }}
       animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: 30 }}
+      exit={{ opacity: 0, x: -30 }}
       transition={{ duration: 0.35 }}
       className="grid min-h-screen lg:grid-cols-2"
     >
-      {/* LEFT */}
       <div className="flex items-center justify-center bg-white px-6 py-10">
         <div className="w-full max-w-md">
           {/* Logo */}
@@ -77,68 +76,32 @@ export default function Login() {
 
           {/* Heading */}
           <div className="mb-10">
-            <p className="text-gray-500 text-sm">Welcome back!</p>
+            <p className="text-gray-500 text-sm">{t("Password recovery")}</p>
 
-            <h1 className="text-4xl font-bold text-gray-900 mt-2">
-              Please Sign In
+            <h1 className="text-4xl font-bold text-gray-900 mt-2 mb-3">
+              {t("Forgot your password?")}
             </h1>
+            <span>
+              {t(
+                "Kindly enter the email address linked to this account and we will send you a code to enable you change your password.",
+              )}
+            </span>
           </div>
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Username */}
             <div>
-              <Label className="mb-2 block">{t("username")}: emilys</Label>
+              <Label className="mb-2 block">{t("Email")}</Label>
 
               <Input
-                name="username"
-                placeholder="Enter username"
+                name="Email"
+                placeholder="Enter email"
                 className="h-12 rounded-lg"
                 required
               />
             </div>
 
-            {/* Password */}
-            <div>
-              <Label className="mb-2 block">
-                {t("Password")}: <del>emilyspass</del>
-              </Label>
-
-              <div className="relative">
-                <Input
-                  name="password"
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Enter password"
-                  className="h-12 rounded-lg pr-10"
-                  required
-                />
-
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
-                >
-                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                </button>
-              </div>
-            </div>
-
-            {/* Remember */}
-            <div className="flex items-center justify-between text-sm">
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" className="rounded" />
-                <span>Remember me</span>
-              </label>
-
-              <Link
-                href="/login/forget"
-                className="text-sky-600 hover:underline"
-              >
-                Forgot password?
-              </Link>
-            </div>
-
-            {/* Login */}
             <Button
               type="submit"
               disabled={isLoading}
@@ -152,11 +115,9 @@ export default function Login() {
           </form>
         </div>
       </div>
-
-      {/* RIGHT */}
       <div className="relative hidden lg:block">
         <Image
-          src="/login-page-img.png"
+          src="/login-forget-img.png"
           alt="login"
           fill
           priority
